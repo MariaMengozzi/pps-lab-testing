@@ -27,7 +27,6 @@ class TVSetSpec extends AnyFeatureSpec with GivenWhenThen:
       Then("the TV should switch on")
       assert(tv.isOn)
     }
+    Scenario("User presses power button when TV is on") { pending }
   }
-
-  Scenario("User presses power button when TV is on") { pending }
 end TVSetSpec
