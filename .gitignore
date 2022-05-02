@@ -11,3 +11,5 @@ build
 .gradle
 .idea
 .bsp/
+
+null/
