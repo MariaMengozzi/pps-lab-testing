@@ -20,7 +20,14 @@ class CatalogTest extends AnyFlatSpec with Matchers:
     assert(catalog.priceFor(p2, 1) == Price(34))
   }
 
-class BasicShopping extends AnyFlatSpec with Matchers:
+class WarehouseTest extends AnyFreeSpec with Matchers:
+  "Getting from an empty warehouse returns 0" - {
+    val warehouse = new BasicWarehouse()
+    val p = new Product("a")
+    assert(warehouse.get(p, 5) == (p, 0))
+  }
+
+class BasicShoppingTest extends AnyFlatSpec with Matchers:
   // https://www.scalatest.org/scaladoc/3.1.2/org/scalatest/flatspec/AnyFlatSpec.html#getFixtureMethods
   class Fixture {
     val p1 = Product("Hat")
