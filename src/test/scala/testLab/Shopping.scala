@@ -1,9 +1,9 @@
 package testLab
 
-import org.scalatest.flatspec.AnyFlatSpec
-import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.funsuite.AnyFunSuite
-import org.scalatest.matchers.should.Matchers
+  import org.scalatest.flatspec.{AnyFlatSpec}
+  import org.scalatest.freespec.AnyFreeSpec
+  import org.scalatest.funsuite.AnyFunSuite
+  import org.scalatest.matchers.should.Matchers
 
 class CartTest extends AnyFunSuite :
   test ("A new cart has size 0") {
@@ -20,22 +20,23 @@ class CatalogTest extends AnyFlatSpec with Matchers:
     assert(catalog.priceFor(p2, 1) == Price(34))
   }
 
-class BasicShopping extends AnyFreeSpec with Matchers:
-  "shop with a catalog and a warehouse with 50 items of p1 product" - {
+class BasicShopping extends AnyFlatSpec with Matchers:
+  // https://www.scalatest.org/scaladoc/3.1.2/org/scalatest/flatspec/AnyFlatSpec.html#getFixtureMethods
+  class Fixture {
     val p1 = Product("Hat")
     val warehouse = new BasicWarehouse
-    warehouse.supply(p1, 50)
     val catalog = new BasicCatalog(Map[Product,Price](
       p1 -> Price(34)
     ))
-    "And given a chart" - {
-      val cart = new BasicCart()
-      val shopping = new Shopping(warehouse, catalog, cart, new BasicLogger(">> "))
-      "piking some 10 items of p1" - {
-        shopping.pick(p1, 10)
-        "gain 340 euros" - {
-          assert(cart.totalCost == 340)
-        }
-      }
-    }
+    val cart = new BasicCart()
+    val shopping = new Shopping(warehouse, catalog, cart, new BasicLogger(">> "))
   }
+  def fixture = new Fixture
+
+  "total cost for picking 10 p1 items" should "be 340" in {
+    val f = fixture
+    f.warehouse.supply(f.p1, 50)
+    f.shopping.pick(f.p1, 10)
+    assert(f.cart.totalCost == 340)
+    }
+
